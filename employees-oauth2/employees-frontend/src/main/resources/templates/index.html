@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Employees</title>
+</head>
+<body>
+
+<h1>Employees</h1>
+
+<div sec:authorize="isAuthenticated()">
+    <p>Username: <span sec:authentication="name">johndoe</span></p>
+    <p>Name: <span sec:authentication="principal.attributes['name']">John Doe</span></p>
+    <p>E-mail: <span sec:authentication="principal.attributes['email']">johndoe@</span></p>
+    <p>Roles: <span sec:authentication="authorities">employees_user</span></p>
+
+    <p><img th:if="${#authentication.principal.attributes['avatar_url'] != null}" th:src="${#authentication.principal.attributes['avatar_url']}" style="height: 50px"/></p>
+
+    <p></p><a href="http://localhost:8080/realms/employees/account">Account management</a></p>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout">
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.name}"></td>
+    </tr>
+    </tbody>
+</table>
+
+    <a href="/create-employee">Create employee</a>
+
+
+
+</body>
+</html>

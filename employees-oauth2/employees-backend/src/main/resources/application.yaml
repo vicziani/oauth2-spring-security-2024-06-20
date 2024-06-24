@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/db-changelog.yaml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/employees
+          principal-claim-name: preferred_username
+          authorities-claim-name: realm_access_roles
+          authority-prefix: ROLE_
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    employees: DEBUG
+    org.hibernate.SQL: TRACE
+    org.springframework.security: DEBUG
